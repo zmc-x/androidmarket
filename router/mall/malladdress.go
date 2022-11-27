@@ -8,7 +8,7 @@ import (
 
 type Address struct{}
 
-func (m Address) Inlitilize(router *gin.RouterGroup) {
+func (m Address) Initialize(router *gin.RouterGroup) {
 	address := router.Group("v1").Use(middleware.CheckToken())
 	{
 		address.POST("/address/add", v1.Api.MallGroup.Addaddress)

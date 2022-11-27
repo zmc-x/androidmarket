@@ -1,4 +1,4 @@
-package inlitialize
+package initialize
 
 import (
 	"androidmarket/router"
@@ -13,17 +13,17 @@ func Route() *gin.Engine {
 	mallroute := router.RouterApi.Mallrouter
 	mallgroup := route.Group("/mall")
 	{
-		mallroute.Malluser.Inlitialize(mallgroup)
-		mallroute.Address.Inlitilize(mallgroup)
-		mallroute.MallGoods.Inlitialize(mallgroup)
-		mallroute.MallCart.Inlitialize(mallgroup)
-		mallroute.MallOrder.Inlitialize(mallgroup)
+		mallroute.Malluser.Initialize(mallgroup)
+		mallroute.Address.Initialize(mallgroup)
+		mallroute.MallGoods.Initialize(mallgroup)
+		mallroute.MallCart.Initialize(mallgroup)
+		mallroute.MallOrder.Initialize(mallgroup)
 	}
 	// 后台管理路由初始化
 	manageroute := router.RouterApi.Managerouter
 	managegroup := route.Group("/manage")
 	{
-		manageroute.Managegoods.Inlitialize(managegroup)
+		manageroute.Managegoods.Initialize(managegroup)
 	}
 	return route
 }

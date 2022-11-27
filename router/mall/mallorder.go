@@ -8,7 +8,7 @@ import (
 
 type MallOrder struct{}
 
-func (m MallOrder) Inlitialize(route *gin.RouterGroup) {
+func (m MallOrder) Initialize(route *gin.RouterGroup) {
 	order := route.Group("v1").Use(middleware.CheckToken())
 	{
 		order.POST("/order/create", v1.Api.MallGroup.OrderCreate)

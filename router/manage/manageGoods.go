@@ -8,7 +8,7 @@ import (
 
 type Managegoods struct{}
 
-func (m Managegoods) Inlitialize(router *gin.RouterGroup) {
+func (m Managegoods) Initialize(router *gin.RouterGroup) {
 	goods := router.Group("v1").Use(middleware.CheckToken())
 	{
 		goods.POST("/goods/addmajorinfo", v1.Api.ManageGroup.AddGoodsMajorInfo)

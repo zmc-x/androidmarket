@@ -8,7 +8,7 @@ import (
 
 type Malluser struct{}
 
-func (m Malluser) Inlitialize(router *gin.RouterGroup) {
+func (m Malluser) Initialize(router *gin.RouterGroup) {
 	usergroup := router.Group("v1")
 	{
 		usergroup.POST("/user/Login", v1.Api.MallGroup.Userlogin)

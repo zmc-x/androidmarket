@@ -2,11 +2,11 @@ package main
 
 import (
 	"androidmarket/global"
-	"androidmarket/inlitialize"
+	"androidmarket/initialize"
 )
 
 func main() {
-	r := inlitialize.Route()
-	global.GlobalDB = inlitialize.GormDb()
+	r := initialize.Route()
+	global.GlobalDB = initialize.GormDb()
 	r.Run(":1234")
 }

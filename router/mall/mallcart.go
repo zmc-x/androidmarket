@@ -8,7 +8,7 @@ import (
 
 type MallCart struct{}
 
-func (receiver MallCart) Inlitialize(route *gin.RouterGroup) {
+func (receiver MallCart) Initialize(route *gin.RouterGroup) {
 	cart := route.Group("v1").Use(middleware.CheckToken())
 	{
 		cart.POST("/shoppingcart/add", v1.Api.MallGroup.Cartadd)

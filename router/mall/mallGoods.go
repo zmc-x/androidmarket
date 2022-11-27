@@ -8,7 +8,7 @@ import (
 
 type MallGoods struct{}
 
-func (g MallGoods) Inlitialize(router *gin.RouterGroup) {
+func (g MallGoods) Initialize(router *gin.RouterGroup) {
 	goods := router.Group("v1").Use(middleware.CheckToken())
 	{
 		goods.GET("/goods/showgoodsinfo", v1.Api.MallGroup.Showgoodsinfo)
