@@ -13,6 +13,7 @@ type MallGroup struct {
 var Userlogin = service.Service.MallGroup.Userlogin               // 登录
 var UserSignup = service.Service.MallGroup.Usersignup             // 注册
 var UserUpdatePass = service.Service.MallGroup.Updatepass         // 修改用户密码
+var UserInfo = service.Service.MallGroup.GetUserInfo              // 获取用户的相关信息
 var Addaddress = service.Service.MallGroup.AddAddress             // 添加地址
 var Updateaddress = service.Service.MallGroup.UpdateAddress       // 修改地址
 var Deleteaddresses = service.Service.MallGroup.Deleteaddresses   // 删除地址

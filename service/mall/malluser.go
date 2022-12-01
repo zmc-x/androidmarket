@@ -4,6 +4,7 @@ import (
 	"androidmarket/global"
 	"androidmarket/model/mall"
 	"androidmarket/model/mall/request"
+	"androidmarket/model/mall/response"
 	"github.com/golang-jwt/jwt/v4"
 	"strconv"
 	"time"
@@ -74,4 +75,15 @@ func setToken(user mall.User) string {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &m)
 	s, _ := token.SignedString(mykey)
 	return s
+}
+
+// GetUserInfo 获取用户信息
+func (m Malluser) GetUserInfo(uid string) (response.UserData, bool, string) {
+	res := response.UserData{}
+	mid := global.GlobalDB.Model(&mall.User{}).Where("uid = ?", uid).Find(&res)
+	if mid.RowsAffected == 0 {
+		return response.UserData{}, false, "sorry, 查询失败~"
+	} else {
+		return res, true, "successful！查询成功~"
+	}
 }

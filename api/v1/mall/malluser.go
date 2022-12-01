@@ -60,3 +60,12 @@ func (m Malluser) Userupdatepass(c *gin.Context) {
 		}
 	}
 }
+
+// GetUserinfo 获取用户信息
+func (m Malluser) GetUserinfo(c *gin.Context) {
+	if res, status, msg := UserInfo(middleware.Uid); status {
+		mallresp.OkWithDetail(c, res, msg)
+	} else {
+		mallresp.FailWithDetail(c, res, msg)
+	}
+}

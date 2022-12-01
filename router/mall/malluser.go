@@ -17,5 +17,6 @@ func (m Malluser) Initialize(router *gin.RouterGroup) {
 	usergrouptwo := router.Group("v1").Use(middleware.CheckToken())
 	{
 		usergrouptwo.POST("/user/updatepass", v1.Api.MallGroup.Userupdatepass)
+		usergrouptwo.GET("/user/info", v1.Api.MallGroup.GetUserinfo)
 	}
 }
