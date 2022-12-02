@@ -9,12 +9,16 @@ type Orders struct {
 
 // Orderinfo 订单详细信息
 type Orderinfo struct {
-	Location   string      `json:"location"`   // 地址
-	Allprice   float64     `json:"allprice"`   // 总价格
-	Createdat  string      `json:"createdat"`  // 创建时间
-	Finishedat string      `json:"finishedat"` // 取消/完成时间
-	Goodsinfo  []Goodsinfo `json:"goodsinfo"`  // GoodsInfo
-	Status     int         `json:"status"`     // 订单状态
+	//Location   string      `json:"location"`   // 地址
+	Province       string      `json:"province"`       // 省
+	City           string      `json:"city"`           // 市
+	County         string      `json:"county"`         // 区 / 县
+	Detaillocation string      `json:"detaillocation"` // 详细地址
+	Allprice       float64     `json:"allprice"`       // 总价格
+	Createdat      string      `json:"createdat"`      // 创建时间
+	Finishedat     string      `json:"finishedat"`     // 取消/完成时间
+	Goodsinfo      []Goodsinfo `json:"goodsinfo"`      // GoodsInfo
+	Status         int         `json:"status"`         // 订单状态
 }
 
 type Goodsinfo struct {

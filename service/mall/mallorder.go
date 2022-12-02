@@ -109,20 +109,26 @@ func (m MallOrder) OrderQuery(querytype string, uid string) ([]response.Orders, 
 // OrderQueryInfo 查询订单详细信息
 func (m MallOrder) OrderQueryInfo(uid string, orderid int) response.Orderinfo {
 	mid := struct {
-		Location   string    `json:"location"`   // 地址
-		Allprice   float64   `json:"allprice"`   // 总价格
-		Createdat  time.Time `json:"createdat"`  // 创建时间
-		Finishedat time.Time `json:"finishedat"` // 取消/完成时间
-		Status     int       `json:"status"`     // 订单状态
+		Province       string    `json:"province"`       // 省
+		City           string    `json:"city"`           // 市
+		County         string    `json:"county"`         // 区 / 县
+		Detaillocation string    `json:"detaillocation"` // 详细地址
+		Allprice       float64   `json:"allprice"`       // 总价格
+		Createdat      time.Time `json:"createdat"`      // 创建时间
+		Finishedat     time.Time `json:"finishedat"`     // 取消/完成时间
+		Status         int       `json:"status"`         // 订单状态
 	}{}
-	global.GlobalDB.Model(&mall.Order{}).Where("orders.uid = ? and orders.id = ?", uid, orderid).Select("orders.allprice, orders.status, orders.createdat, orders.finishedat, addresses.location").Joins("join addresses on orders.address_id = addresses.id").Scan(&mid)
+	global.GlobalDB.Model(&mall.Order{}).Where("orders.uid = ? and orders.id = ?", uid, orderid).Select("orders.allprice, orders.status, orders.createdat, orders.finishedat, addresses.province, addresses.city, addresses.county, addresses.detaillocation").Joins("join addresses on orders.address_id = addresses.id").Scan(&mid)
 	// 将mid赋值给res
 	res := response.Orderinfo{
-		Location:   mid.Location,
-		Allprice:   mid.Allprice,
-		Createdat:  fmt.Sprintf("%d-%02d-%02d %02d:%02d:%02d", mid.Createdat.Year(), mid.Createdat.Month(), mid.Createdat.Day(), mid.Createdat.Hour(), mid.Createdat.Minute(), mid.Createdat.Second()),
-		Finishedat: fmt.Sprintf("%d-%02d-%02d %02d:%02d:%02d", mid.Finishedat.Year(), mid.Finishedat.Month(), mid.Finishedat.Day(), mid.Finishedat.Hour(), mid.Finishedat.Minute(), mid.Finishedat.Second()),
-		Status:     mid.Status,
+		Province:       mid.Province,
+		County:         mid.County,
+		City:           mid.City,
+		Detaillocation: mid.Detaillocation,
+		Allprice:       mid.Allprice,
+		Createdat:      fmt.Sprintf("%d-%02d-%02d %02d:%02d:%02d", mid.Createdat.Year(), mid.Createdat.Month(), mid.Createdat.Day(), mid.Createdat.Hour(), mid.Createdat.Minute(), mid.Createdat.Second()),
+		Finishedat:     fmt.Sprintf("%d-%02d-%02d %02d:%02d:%02d", mid.Finishedat.Year(), mid.Finishedat.Month(), mid.Finishedat.Day(), mid.Finishedat.Hour(), mid.Finishedat.Minute(), mid.Finishedat.Second()),
+		Status:         mid.Status,
 	}
 	temp := make([]mall.Orderitem, 0)
 	global.GlobalDB.Where("order_id = ?", orderid).Find(&temp)

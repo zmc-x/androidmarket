@@ -12,7 +12,7 @@ type MallAddress struct{}
 func (m MallAddress) AddAddress(params request.Address, uid string) (string, bool, error) {
 	// 判断同一个收件人下是否存在相同的信息
 	temp := mall.Address{}
-	midres := global.GlobalDB.Where("name = ? and location = ? and tel = ? and uid = ?", params.Name, params.Location, params.Tel, uid).Find(&temp)
+	midres := global.GlobalDB.Where("name = ? and province = ? and city = ? and county = ? and detaillocation = ? and tel = ? and uid = ?", params.Name, params.Province, params.City, params.County, params.Detaillocation, params.Tel, uid).Find(&temp)
 	if midres.RowsAffected != 0 {
 		return "添加失败，该收货地址已经存在", false, midres.Error
 	}
@@ -20,7 +20,7 @@ func (m MallAddress) AddAddress(params request.Address, uid string) (string, boo
 	if params.Defaultaddress == 1 {
 		global.GlobalDB.Model(&mall.Address{}).Where("defaultaddress = ? and uid = ?", 1, uid).Update("defaultaddress", 0)
 	}
-	res := global.GlobalDB.Create(&mall.Address{Uid: uid, Name: params.Name, Tel: params.Tel, Defaultaddress: params.Defaultaddress, Location: params.Location})
+	res := global.GlobalDB.Create(&mall.Address{Uid: uid, Name: params.Name, Tel: params.Tel, Defaultaddress: params.Defaultaddress, Province: params.Province, City: params.City, County: params.County, Detaillocation: params.Detaillocation})
 	if res.Error == nil {
 		// 添加成功
 		return "Ok！收货地址添加成功", true, res.Error
@@ -42,7 +42,7 @@ func (m MallAddress) UpdateAddress(params request.Address, uid string) (string, 
 	if params.Defaultaddress == 1 {
 		global.GlobalDB.Where("uid = ?", formeraddress.Uid).Update("defaultaddress", 0)
 	}
-	res := global.GlobalDB.Model(&formeraddress).Select("name", "location", "tel", "defaultaddress").Updates(mall.Address{Name: params.Name, Location: params.Location, Tel: params.Tel, Defaultaddress: params.Defaultaddress})
+	res := global.GlobalDB.Model(&formeraddress).Select("name", "location", "tel", "defaultaddress").Updates(mall.Address{Name: params.Name, Province: params.Province, City: params.City, County: params.County, Detaillocation: params.Detaillocation, Tel: params.Tel, Defaultaddress: params.Defaultaddress})
 	if res.Error != nil {
 		return "Sorry，该地址记录修改失败", false, res.Error
 	} else {
