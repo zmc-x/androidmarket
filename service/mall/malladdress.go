@@ -40,7 +40,7 @@ func (m MallAddress) UpdateAddress(params request.Address, uid string) (string, 
 	}
 	// 查看是否需要修改默认地址
 	if params.Defaultaddress == 1 {
-		global.GlobalDB.Where("uid = ?", formeraddress.Uid).Update("defaultaddress", 0)
+		global.GlobalDB.Model(&mall.Address{}).Where("uid = ?", formeraddress.Uid).Update("defaultaddress", 0)
 	}
 	res := global.GlobalDB.Model(&formeraddress).Select("name", "province", "city", "county", "detaillocation", "tel", "defaultaddress").Updates(mall.Address{Name: params.Name, Province: params.Province, City: params.City, County: params.County, Detaillocation: params.Detaillocation, Tel: params.Tel, Defaultaddress: params.Defaultaddress})
 	if res.Error != nil {
