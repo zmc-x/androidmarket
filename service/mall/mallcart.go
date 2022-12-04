@@ -46,7 +46,7 @@ func (m MallCart) Cartadd(param request.AddCart, uid string) (error, bool, strin
 // Cartupdatecount 更新购物车中的数量
 func (m MallCart) Cartupdatecount(param request.UpdateCount, uid string) (string, int, bool) {
 	Ctemp, Stemp := mall.Cart{}, mall.Specification{}
-	res := global.GlobalDB.Where("goods_id = ? and uid = ? and specification_id = ?", param.Goodsid, uid, param.Specificationid).Find(&Ctemp)
+	res := global.GlobalDB.Where("id = ? and uid = ? ", param.Cartid, uid).Find(&Ctemp)
 	if res.RowsAffected == 0 {
 		return "非法修改", 0, false
 	}
@@ -64,7 +64,7 @@ func (m MallCart) Cartupdatecount(param request.UpdateCount, uid string) (string
 func (m MallCart) Cartdelete(param request.Cartdelete, uid string) string {
 	// 循环遍历
 	for _, v := range param.Deletegoods {
-		global.GlobalDB.Where("goods_id = ? and uid = ? and specification_id = ?", v.Goodsid, uid, v.Specificationid).Delete(&mall.Cart{})
+		global.GlobalDB.Where("id = ? and uid = ?", v, uid).Delete(&mall.Cart{})
 	}
 	return "删除成功！"
 }

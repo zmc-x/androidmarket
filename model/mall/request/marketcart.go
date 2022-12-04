@@ -9,17 +9,12 @@ type AddCart struct {
 
 // UpdateCount 更新购物车中商品的数量
 type UpdateCount struct {
-	Goodsid         int `json:"goodsid"`         // 商品id
+	Cartid          int `json:"cartid"`          // 购物车id
 	Newcount        int `json:"newcount"`        // 新的数量
 	Specificationid int `json:"specificationid"` // 商品规格id
 }
 
 // Cartdelete 删除购物车中的商品
 type Cartdelete struct {
-	Deletegoods []Deletegood `json:"deletegoods"` // Deletegoods
-}
-
-type Deletegood struct {
-	Goodsid         int `json:"goodsid"`         // 商品id
-	Specificationid int `json:"specificationid"` // 规格id
+	Deletegoods []int `json:"deletegoods"` // Deletegoods
 }
