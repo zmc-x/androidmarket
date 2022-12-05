@@ -17,12 +17,10 @@ func (m MallCart) Cartadd(param request.AddCart, uid string) (error, bool, strin
 	// 查询对应商品规格的数量
 	global.GlobalDB.Where("specification_id = ? and goods_id = ?", param.Specificationid, param.Goodsid).Find(&tempspecific)
 	// 是否存在数据
+	// 若存在数据则返回提示信息
+	// 反之则进行添加的操作
 	if midcart.RowsAffected != 0 {
-		if tempspecific.Count < param.Count {
-			global.GlobalDB.Model(&temp).Update("count", tempspecific.Count)
-		} else {
-			global.GlobalDB.Model(&temp).Update("count", param.Count)
-		}
+		return nil, false, "该商品已经存在于购物车中，无需在进行重复的添加！"
 	} else {
 		mid := global.GlobalDB.Where("specification_id = ? and count >= ?", param.Specificationid, param.Count).Find(&mall.Specification{})
 		if mid.RowsAffected == 0 {
