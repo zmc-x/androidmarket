@@ -59,3 +59,14 @@ func (m MallCart) CartQuery(c *gin.Context) {
 	res := CartQuery(middleware.Uid)
 	mallresp.OkWithDetail(c, res, "")
 }
+
+// CartQueryById 查询购物车中商品信息通过id
+func (m MallCart) CartQueryById(c *gin.Context) {
+	queryparam := request.CartQueryById{}
+	paramerr := c.ShouldBindJSON(&queryparam)
+	if paramerr != nil {
+		mallresp.FailParam(c)
+	}
+	res := CartQueryById(middleware.Uid, queryparam.Cartids)
+	mallresp.OkWithDetail(c, res, "")
+}

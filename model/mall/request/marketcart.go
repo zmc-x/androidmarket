@@ -18,3 +18,8 @@ type UpdateCount struct {
 type Cartdelete struct {
 	Deletegoods []int `json:"deletegoods"` // Deletegoods
 }
+
+// CartQueryById 通过购物车id来查询商品
+type CartQueryById struct {
+	Cartids []int `json:"cartids"` // 需要查询的id组
+}

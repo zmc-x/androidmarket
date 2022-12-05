@@ -38,7 +38,6 @@ func (m MallCart) Cartadd(param request.AddCart, uid string) (error, bool, strin
 			return nil, true, "添加成功！"
 		}
 	}
-	return nil, true, "添加成功！"
 }
 
 // Cartupdatecount 更新购物车中的数量
@@ -71,6 +70,18 @@ func (m MallCart) Cartdelete(param request.Cartdelete, uid string) string {
 func (m MallCart) Cartquery(uid string) []response.Goodsdata {
 	temp := make([]response.Goodsdata, 0)
 	global.GlobalDB.Raw("SELECT\n\tc.id cart_id, m.goods_id goods_id,\n\tm.specification_id specification_id,\n\tm.goods_name goods_name,\n\tm.coverimage cover_image,\n\tm.`specific` `specific`,\n\tm.price price,\n\tc.count count, \n\tm.color color \nFROM\n\tcarts c\n\tJOIN (\n\tSELECT\n\t\ta.goods_id goods_id,\n\t\ta.goods_name goods_name,\n\t\ta.goods_image_cover coverimage,\n\t\tb.`specific` `specific`,\n\t\tb.specification_id specification_id,\n\t\tb.color color,\n\t\tb.price price \n\tFROM\n\t\tgoods a\n\t\tJOIN specifications b ON a.goods_id = b.goods_id \n\t) m ON c.goods_id = m.goods_id \n\tAND c.specification_id = m.specification_id \n\tAND c.uid = ?", uid).Scan(&temp)
+	res := make([]response.Goodsdata, 0)
+	for _, v := range temp {
+		v.CoverImage = "https://cdn.zmcicloud.cn/" + v.CoverImage
+		res = append(res, v)
+	}
+	return res
+}
+
+// CartQueryById 通过购物车中id来查询
+func (m MallCart) CartQueryById(uid string, ids []int) []response.Goodsdata {
+	temp := make([]response.Goodsdata, 0)
+	global.GlobalDB.Raw("SELECT\n\tc.id cart_id,\n\tm.goods_id goods_id,\n\tm.specification_id specification_id,\n\tm.goods_name goods_name,\n\tm.coverimage cover_image,\n\tm.`specific` `specific`,\n\tm.price price,\n\tc.count count,\n\tm.color color \nFROM\n\tcarts c\n\tJOIN (\n\tSELECT\n\t\ta.goods_id goods_id,\n\t\ta.goods_name goods_name,\n\t\ta.goods_image_cover coverimage,\n\t\tb.`specific` `specific`,\n\t\tb.specification_id specification_id,\n\t\tb.color color,\n\t\tb.price price \n\tFROM\n\t\tgoods a\n\t\tJOIN specifications b ON a.goods_id = b.goods_id \n\t) m ON c.goods_id = m.goods_id \n\tAND c.specification_id = m.specification_id \n\tAND c.uid = ?\n\tAND c.id IN (?)", uid, ids).Scan(&temp)
 	res := make([]response.Goodsdata, 0)
 	for _, v := range temp {
 		v.CoverImage = "https://cdn.zmcicloud.cn/" + v.CoverImage

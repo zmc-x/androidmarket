@@ -24,6 +24,7 @@ var CartAdd = service.Service.MallGroup.Cartadd                   // 添加商�
 var Cartupdate = service.Service.MallGroup.Cartupdatecount        // 修改购物车中商品的数量
 var Cartdelete = service.Service.MallGroup.Cartdelete             // 删除购物车中的商品
 var CartQuery = service.Service.MallGroup.Cartquery               // 查询购物车中商品信息
+var CartQueryById = service.Service.MallGroup.CartQueryById       // 查询购物车中的商品信息by id
 var OrderCreate = service.Service.MallGroup.CreateOrder           // 生成订单
 var OrderUpdate = service.Service.MallGroup.Updateorder           // 修改订单的状态
 var OrderQuery = service.Service.MallGroup.OrderQuery             // 查询订单
