@@ -66,6 +66,7 @@ func (m MallCart) CartQueryById(c *gin.Context) {
 	paramerr := c.ShouldBindJSON(&queryparam)
 	if paramerr != nil {
 		mallresp.FailParam(c)
+		return
 	}
 	res := CartQueryById(middleware.Uid, queryparam.Cartids)
 	mallresp.OkWithDetail(c, res, "")

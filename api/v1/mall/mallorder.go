@@ -16,6 +16,7 @@ func (m Mallorder) OrderCreate(c *gin.Context) {
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
 		mallresp.FailParam(c)
+		return
 	}
 	if reserr, status, msg := OrderCreate(input, middleware.Uid); status {
 		mallresp.OkWithDetail(c, nil, msg)
