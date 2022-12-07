@@ -6,6 +6,7 @@ import (
 	"androidmarket/model/mall/request"
 	"androidmarket/model/mall/response"
 	"fmt"
+	"gorm.io/gorm"
 	"time"
 )
 
@@ -43,6 +44,7 @@ func (m MallOrder) CreateOrder(param request.Createoder, uid string) (error, boo
 		res := tx.Create(&mall.Orderitem{
 			OrderId:    temp.Id,
 			Color:      v.Color,
+			SpecificId: v.SpecificId,
 			Specific:   v.Specific,
 			Count:      v.Count,
 			Price:      v.Price,
@@ -72,6 +74,15 @@ func (m MallOrder) Updateorder(updatetype string, orderid int, uid string) (stri
 			Status:     3,
 			Finishedat: fmt.Sprintf("%d-%02d-%02d %02d:%02d:%02d\n", now.Year(), now.Month(), now.Day(), now.Hour(), now.Minute(), now.Second()),
 		})
+		// 同步修改订单中相关商品的库存
+		specificationIds := make([]struct {
+			SpecificId int
+			Count      int
+		}, 0)
+		global.GlobalDB.Model(&mall.Orderitem{}).Where("order_id = ?", orderid).Find(&specificationIds)
+		for _, v := range specificationIds {
+			updateGoodsCount(v.SpecificId, v.Count)
+		}
 		return "订单完成！", true
 	} else {
 		return "", false
@@ -144,4 +155,17 @@ func (m MallOrder) OrderQueryInfo(uid string, orderid int) response.Orderinfo {
 		})
 	}
 	return res
+}
+
+// updateGoodsCount 修改商品的数量
+func updateGoodsCount(specificId, lossCount int) {
+	global.GlobalDB.Model(&mall.Specification{}).Where("specification_id = ?", specificId).Update("count", gorm.Expr("count - ?", lossCount))
+	// 查询相关的商品数量情况
+	// 如果该商品下库存为0，
+	// 直接改为下架
+	id := struct{ GoodsId int }{}
+	res := global.GlobalDB.Model(&mall.Specification{}).Where("specification_id = ? and count > 0", specificId).Limit(1).Find(&id)
+	if res.RowsAffected == 0 {
+		global.GlobalDB.Model(&mall.Goods{}).Where("goods_id = ?", id.GoodsId).Update("goods_status", 0)
+	}
 }

@@ -10,4 +10,5 @@ type Orderitem struct {
 	OrderId    int     `json:"OrderId"`    // 外键_订单id
 	Price      float64 `json:"price"`      // 商品单价
 	Specific   string  `json:"specific"`   // 商品规格
+	SpecificId int     `json:"specificId"` // 商品规格id
 }
