@@ -12,7 +12,7 @@ import (
 type MallOrder struct{}
 
 // CreateOrder 生成订单
-func (m MallOrder) CreateOrder(param request.Createoder, uid string) (error, bool, string) {
+func (m MallOrder) CreateOrder(param request.Createoder, uid string) (error, bool, string, int) {
 	now := time.Now()
 	// 开启事务
 	tx := global.GlobalDB.Begin()
@@ -32,9 +32,10 @@ func (m MallOrder) CreateOrder(param request.Createoder, uid string) (error, boo
 	})
 	if res.Error != nil {
 		tx.Rollback()
-		return res.Error, false, "生成订单失败！"
+		return res.Error, false, "生成订单失败！", 0
 	}
-	// 获取orderid
+	// 获取orderId
+	// 需要将 orderIds return
 	temp := mall.Order{}
 	tx.Last(&temp)
 	// 操作orderitem表
@@ -50,11 +51,11 @@ func (m MallOrder) CreateOrder(param request.Createoder, uid string) (error, boo
 		})
 		if res.Error != nil {
 			tx.Rollback()
-			return res.Error, false, "生成订单失败！"
+			return res.Error, false, "生成订单失败！", 0
 		}
 	}
 	tx.Commit()
-	return nil, true, "生成订单成功！"
+	return nil, true, "生成订单成功！", temp.Id
 }
 
 // Updateorder 修改订单的状态

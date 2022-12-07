@@ -18,8 +18,8 @@ func (m Mallorder) OrderCreate(c *gin.Context) {
 		mallresp.FailParam(c)
 		return
 	}
-	if reserr, status, msg := OrderCreate(input, middleware.Uid); status {
-		mallresp.OkWithDetail(c, nil, msg)
+	if reserr, status, msg, orderId := OrderCreate(input, middleware.Uid); status {
+		mallresp.OkWithDetail(c, map[string]interface{}{"orderId": orderId}, msg)
 	} else {
 		mallresp.FailWithDetail(c, map[string]interface{}{"error": reserr.Error()}, msg)
 	}
