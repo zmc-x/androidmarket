@@ -110,9 +110,10 @@ func (m MallOrder) OrderQuery(querytype string, uid string) ([]response.Orders, 
 		// 查询每个订单中的商品信息
 		global.GlobalDB.Model(&mall.Orderitem{}).Where("order_id = ?", v.Id).Find(&temp)
 		res = append(res, response.Orders{
-			Orderid:  v.Id,
-			Allprice: v.Allprice,
-			Goods:    temp,
+			Orderid:   v.Id,
+			Allprice:  v.Allprice,
+			Createdat: v.Createdat,
+			Goods:     temp,
 		})
 	}
 	return res, true, "查询成功！"

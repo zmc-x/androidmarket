@@ -2,9 +2,10 @@ package response
 
 // Orders 订单信息
 type Orders struct {
-	Goods    []Goodsinfo `json:"goods"`    // goodsinfo
-	Orderid  int         `json:"orderid"`  // 订单id
-	Allprice float64     `json:"allprice"` // 订单总价格
+	Goods     []Goodsinfo `json:"goods"`     // goodsinfo
+	Orderid   int         `json:"orderid"`   // 订单id
+	Allprice  float64     `json:"allprice"`  // 订单总价格
+	Createdat string      `json:"createdat"` // 创建订单时间
 }
 
 // Orderinfo 订单详细信息
