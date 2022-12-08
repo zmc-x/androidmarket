@@ -152,7 +152,7 @@ func (m MallOrder) OrderQueryInfo(uid string, orderid int) response.Orderinfo {
 			GoodsName:  v.GoodsName,
 			Count:      v.Count,
 			Color:      v.Color,
-			CoverImage: "https://cdn.zmcicloud.cn/" + v.CoverImage,
+			CoverImage: v.CoverImage,
 			Price:      v.Price,
 		})
 	}
