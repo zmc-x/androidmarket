@@ -39,6 +39,7 @@ func (m MallGoods) ShowGoodsInfo(goodsid int) (bool, response.ShowGoodsInfo) {
 	}
 }
 
+// QueryGoodsByType 通过商品类别来查找相关的商品
 func (m MallGoods) QueryGoodsByType(goostype string) (bool, []response.GoodsModel) {
 	temp := make([]mall.Goods, 0)
 	res := global.GlobalDB.Where("goods_type = ?", goostype).Find(&temp)
@@ -73,4 +74,23 @@ func QuerySpecification(goodsid int) []response.Model {
 		return result
 	}
 	return nil
+}
+
+// QueryHomeinfo 查询商品首页信息
+func (m MallGoods) QueryHomeinfo() []response.GoodsHomeInfo {
+	mid := make([]response.GoodsHomeInfo, 0)
+	global.GlobalDB.Raw("SELECT\n\tm.goods_id goods_id,\n\tn.goods_name goods_name,\n\tm.specification_id specification_id,\n\tm.color color,\n\tm.price price,\n\tm.`specific` `specific`,\n\tn.goods_image_cover coverimage \nFROM\n\t(\n\tSELECT\n\t\ts.goods_id goods_id,\n\t\ts.`specific` `specific`,\n\t\ts.specification_id specification_id,\n\t\ts.color color,\n\t\ts.price price \n\tFROM\n\t\tspecifications s\n\t\tJOIN ( SELECT goods_id, min( price ) min_price FROM specifications GROUP BY goods_id ) b ON s.goods_id = b.goods_id \n\t\tAND s.price = b.min_price \n\t) m\n\tJOIN goods n \nWHERE\n\tm.goods_id = n.goods_id").Scan(&mid)
+	res := make([]response.GoodsHomeInfo, 0)
+	// 处理url
+	for _, v := range mid {
+		res = append(res, response.GoodsHomeInfo{
+			GoodsId:         v.GoodsId,
+			Specific:        v.Specific,
+			SpecificationId: v.SpecificationId,
+			Coverimage:      "https://cdn.zmcicloud.cn/" + v.Coverimage,
+			GoodsName:       v.GoodsName,
+			Price:           v.Price,
+		})
+	}
+	return res
 }
