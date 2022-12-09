@@ -34,3 +34,11 @@ func (m MallGoods) GoodsHomeInfo(c *gin.Context) {
 	res := GoodsHomeInfo()
 	mallresp.OkWithDetail(c, res, "查询成功！")
 }
+
+// GoodsInfo 查询商品在订单中的相关信息
+func (m MallGoods) GoodsInfo(c *gin.Context) {
+	goodsid, _ := strconv.Atoi(c.Query("goodsid"))
+	specificationid, _ := strconv.Atoi(c.Query("specificationid"))
+	res := Goodsinfo(goodsid, specificationid)
+	mallresp.OkWithDetail(c, res, "查询成功！")
+}

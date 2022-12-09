@@ -21,6 +21,7 @@ var Selectaddresses = service.Service.MallGroup.Selectaddresses   // 查询地�
 var ShowGoodsInfo = service.Service.MallGroup.ShowGoodsInfo       // 查询单个商品的详细信息
 var QueryGoodsByType = service.Service.MallGroup.QueryGoodsByType // 通过商品类型查询相关信息
 var GoodsHomeInfo = service.Service.MallGroup.QueryHomeinfo       // 查询商城首页的信息
+var Goodsinfo = service.Service.MallGroup.QueryGoodsinfo          // 查询商品在订单中的相关信息
 var CartAdd = service.Service.MallGroup.Cartadd                   // 添加商品到购物车
 var Cartupdate = service.Service.MallGroup.Cartupdatecount        // 修改购物车中商品的数量
 var Cartdelete = service.Service.MallGroup.Cartdelete             // 删除购物车中的商品

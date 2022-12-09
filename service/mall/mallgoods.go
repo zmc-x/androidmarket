@@ -92,3 +92,12 @@ func (m MallGoods) QueryHomeinfo() []response.GoodsHomeInfo {
 	}
 	return res
 }
+
+// QueryGoodsinfo 生成订单时需要的相关商品信息
+func (m MallGoods) QueryGoodsinfo(goodsid int, specificationid int) response.GoodsInOrderInfo {
+	res := response.GoodsInOrderInfo{}
+	global.GlobalDB.Model(&mall.Specification{}).Select("specifications.specification_id, goods.goods_id, goods.goods_name, specifications.specific, specifications.price, specifications.color, goods.goods_image_cover cover_image").Joins("join goods on goods.goods_id = specifications.goods_id").Where("specifications.specification_id = ? and specifications.goods_id = ?", specificationid, goodsid).Scan(&res)
+	res.Count = 1
+	res.CoverImage = "https://cdn.zmcicloud.cn/" + res.CoverImage
+	return res
+}
