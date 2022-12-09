@@ -13,7 +13,7 @@ type MallCart struct{}
 func (m MallCart) Cartadd(param request.AddCart, uid string) (error, bool, string) {
 	// 判断相关数据是否合法
 	temp, tempspecific := mall.Cart{}, mall.Specification{}
-	midcart := global.GlobalDB.Where("specification_id = ? and goods_id = ?", param.Specificationid, param.Goodsid).Find(&temp)
+	midcart := global.GlobalDB.Where("specification_id = ? and goods_id = ? and uid = ?", param.Specificationid, param.Goodsid, uid).Find(&temp)
 	// 查询对应商品规格的数量
 	global.GlobalDB.Where("specification_id = ? and goods_id = ?", param.Specificationid, param.Goodsid).Find(&tempspecific)
 	// 是否存在数据
