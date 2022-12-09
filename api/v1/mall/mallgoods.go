@@ -11,7 +11,8 @@ type MallGoods struct{}
 // Showgoodsinfo 查询商品的单个信息
 func (m MallGoods) Showgoodsinfo(c *gin.Context) {
 	goodsid, _ := strconv.Atoi(c.Query("goodsid"))
-	if status, info := ShowGoodsInfo(goodsid); status {
+	specificationid, _ := strconv.Atoi(c.Query("specificationid"))
+	if status, info := ShowGoodsInfo(goodsid, specificationid); status {
 		mallresp.OkWithDetail(c, info, "查询成功！")
 	} else {
 		mallresp.FailWithDetail(c, nil, "查询失败！")

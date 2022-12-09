@@ -6,7 +6,7 @@ type ShowGoodsInfo struct {
 	Goodsid       int      `json:"goodsid"`       // 商品id
 	Goodsname     string   `json:"goodsname"`     // 商品名称
 	Images        []string `json:"images"`        // 商品详情页
-	Specification []Model  `json:"specification"` // 商品规格
+	Specification Model    `json:"specification"` // 商品规格
 }
 
 // Model 规格模型

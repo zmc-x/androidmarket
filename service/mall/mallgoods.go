@@ -9,7 +9,7 @@ import (
 type MallGoods struct{}
 
 // ShowGoodsInfo 返回商品的详情信息
-func (m MallGoods) ShowGoodsInfo(goodsid int) (bool, response.ShowGoodsInfo) {
+func (m MallGoods) ShowGoodsInfo(goodsid int, specificationid int) (bool, response.ShowGoodsInfo) {
 	temp := mall.Goods{}
 	res := global.GlobalDB.Where("goods_id = ? and goods_status = 1", goodsid).Find(&temp)
 	if res.RowsAffected == 0 {
@@ -20,7 +20,7 @@ func (m MallGoods) ShowGoodsInfo(goodsid int) (bool, response.ShowGoodsInfo) {
 			Goodsid:       goodsid,
 			Goodsname:     temp.GoodsName,
 			Coverimage:    "https://cdn.zmcicloud.cn/" + temp.GoodsImageCover,
-			Specification: QuerySpecification(goodsid),
+			Specification: QuerySpecification(goodsid, specificationid),
 		}
 		imagelen := len(temp.GoodsImageInformation)
 		cnt := 0
@@ -58,22 +58,19 @@ func (m MallGoods) QueryGoodsByType(goostype string) (bool, []response.GoodsMode
 }
 
 // QuerySpecification 查询商品对应的规格
-func QuerySpecification(goodsid int) []response.Model {
-	temp := make([]mall.Specification, 0)
-	res := global.GlobalDB.Where("goods_id = ?", goodsid).Find(&temp)
+func QuerySpecification(goodsid int, specificationid int) response.Model {
+	temp := mall.Specification{}
+	res := global.GlobalDB.Where("goods_id = ? and specification_id = ?", goodsid, specificationid).Find(&temp)
 	if res.RowsAffected != 0 {
-		result := make([]response.Model, 0)
-		for _, v := range temp {
-			result = append(result, response.Model{
-				Specificationid: v.SpecificationId,
-				Specific:        v.Specific,
-				Price:           v.Price,
-				Color:           v.Color,
-			})
+		result := response.Model{
+			Color:           temp.Color,
+			Price:           temp.Price,
+			Specific:        temp.Specific,
+			Specificationid: temp.SpecificationId,
 		}
 		return result
 	}
-	return nil
+	return response.Model{}
 }
 
 // QueryHomeinfo 查询商品首页信息
