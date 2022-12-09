@@ -29,6 +29,7 @@ type GoodsHomeInfo struct {
 	GoodsId         int     `json:"goodsId"`         // 商品id
 	SpecificationId int     `json:"specificationId"` // 商品规格id
 	Specific        string  `json:"specific"`        // 商品规格
+	Color           string  `json:"color"`           // 商品颜色
 	Price           float64 `json:"price"`           // 商品价格
 	GoodsName       string  `json:"goodsName"`       // 商品名称
 	Coverimage      string  `json:"coverimage"`      // 商品封面

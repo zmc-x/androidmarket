@@ -90,6 +90,7 @@ func (m MallGoods) QueryHomeinfo() []response.GoodsHomeInfo {
 			Coverimage:      "https://cdn.zmcicloud.cn/" + v.Coverimage,
 			GoodsName:       v.GoodsName,
 			Price:           v.Price,
+			Color:           v.Color,
 		})
 	}
 	return res
