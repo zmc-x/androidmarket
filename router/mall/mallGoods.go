@@ -9,14 +9,14 @@ import (
 type MallGoods struct{}
 
 func (g MallGoods) Initialize(router *gin.RouterGroup) {
-	goods := router.Group("v1").Use(middleware.CheckToken(), middleware.Cors())
+	goods := router.Group("v1").Use(middleware.CheckToken())
 	{
 		goods.GET("/goods/showgoodsinfo", v1.Api.MallGroup.Showgoodsinfo)
 		goods.GET("/goods/Bytype", v1.Api.MallGroup.QueryGoodsByType)
 		goods.GET("/goods/queryById", v1.Api.MallGroup.GoodsInfo)
 	}
 	// 此处无需鉴权
-	goodsTwo := router.Group("v1").Use(middleware.Cors())
+	goodsTwo := router.Group("v1")
 	{
 		goodsTwo.GET("/goods/marketinfo", v1.Api.MallGroup.GoodsHomeInfo)
 	}

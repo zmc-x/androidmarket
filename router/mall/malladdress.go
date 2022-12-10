@@ -9,7 +9,7 @@ import (
 type Address struct{}
 
 func (m Address) Initialize(router *gin.RouterGroup) {
-	address := router.Group("v1").Use(middleware.CheckToken(), middleware.Cors())
+	address := router.Group("v1").Use(middleware.CheckToken())
 	{
 		address.POST("/address/add", v1.Api.MallGroup.Addaddress)
 		address.POST("/address/update", v1.Api.MallGroup.Updateaddress)

@@ -9,7 +9,7 @@ import (
 type MallOrder struct{}
 
 func (m MallOrder) Initialize(route *gin.RouterGroup) {
-	order := route.Group("v1").Use(middleware.CheckToken(), middleware.Cors())
+	order := route.Group("v1").Use(middleware.CheckToken())
 	{
 		order.POST("/order/create", v1.Api.MallGroup.OrderCreate)
 		order.GET("/order/update/:updatetype", v1.Api.MallGroup.Orderupdate)

@@ -9,7 +9,7 @@ import (
 type Managegoods struct{}
 
 func (m Managegoods) Initialize(router *gin.RouterGroup) {
-	goods := router.Group("v1").Use(middleware.CheckToken(), middleware.Cors())
+	goods := router.Group("v1").Use(middleware.CheckToken())
 	{
 		goods.POST("/goods/addmajorinfo", v1.Api.ManageGroup.AddGoodsMajorInfo)
 		goods.POST("/goods/uploadimages/:goodsid", v1.Api.ManageGroup.AddGoodsImages)

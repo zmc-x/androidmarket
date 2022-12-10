@@ -9,7 +9,7 @@ import (
 type MallCart struct{}
 
 func (receiver MallCart) Initialize(route *gin.RouterGroup) {
-	cart := route.Group("v1").Use(middleware.CheckToken(), middleware.Cors())
+	cart := route.Group("v1").Use(middleware.CheckToken())
 	{
 		cart.POST("/shoppingcart/add", v1.Api.MallGroup.Cartadd)
 		cart.POST("/shoppingcart/updatecount", v1.Api.MallGroup.Cartupdate)

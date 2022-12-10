@@ -9,12 +9,12 @@ import (
 type Malluser struct{}
 
 func (m Malluser) Initialize(router *gin.RouterGroup) {
-	usergroup := router.Group("v1").Use(middleware.Cors())
+	usergroup := router.Group("v1")
 	{
 		usergroup.POST("/user/Login", v1.Api.MallGroup.Userlogin)
 		usergroup.POST("/user/signup", v1.Api.MallGroup.Usersignup)
 	}
-	usergrouptwo := router.Group("v1").Use(middleware.CheckToken(), middleware.Cors())
+	usergrouptwo := router.Group("v1").Use(middleware.CheckToken())
 	{
 		usergrouptwo.POST("/user/updatepass", v1.Api.MallGroup.Userupdatepass)
 		usergrouptwo.GET("/user/info", v1.Api.MallGroup.GetUserinfo)
