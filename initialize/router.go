@@ -1,8 +1,8 @@
 package initialize
 
 import (
+	"androidmarket/middleware"
 	"androidmarket/router"
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -10,7 +10,7 @@ func Route() *gin.Engine {
 	// 初始化一个route
 	route := gin.Default()
 	// go后端跨域问题
-	route.Use(cors.Default())
+	route.Use(middleware.Cors())
 	// router
 	// 商城路由初始化
 	mallroute := router.RouterApi.Mallrouter
