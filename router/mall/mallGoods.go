@@ -19,5 +19,6 @@ func (g MallGoods) Initialize(router *gin.RouterGroup) {
 	goodsTwo := router.Group("v1")
 	{
 		goodsTwo.GET("/goods/marketinfo", v1.Api.MallGroup.GoodsHomeInfo)
+		goodsTwo.GET("/goods/queryByName", v1.Api.MallGroup.QueryByName)
 	}
 }

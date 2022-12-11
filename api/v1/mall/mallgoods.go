@@ -42,3 +42,13 @@ func (m MallGoods) GoodsInfo(c *gin.Context) {
 	res := Goodsinfo(goodsid, specificationid)
 	mallresp.OkWithDetail(c, res, "查询成功！")
 }
+
+// QueryByName 通过商品名称来查询相关信息
+func (m MallGoods) QueryByName(c *gin.Context) {
+	goodsname := c.Query("goodsname")
+	if res, msg, status := QueryByName(goodsname); status {
+		mallresp.OkWithDetail(c, res, msg)
+	} else {
+		mallresp.FailWithDetail(c, res, msg)
+	}
+}

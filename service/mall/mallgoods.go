@@ -101,3 +101,25 @@ func (m MallGoods) QueryGoodsinfo(goodsid int, specificationid int) response.Goo
 	res.CoverImage = "https://cdn.zmcicloud.cn/" + res.CoverImage
 	return res
 }
+
+// QueryByName 通过商品名称来查询相关信息
+func (m MallGoods) QueryByName(goodsname string) ([]response.GoodsHomeInfo, string, bool) {
+	mid := make([]response.GoodsHomeInfo, 0)
+	queryres := global.GlobalDB.Model(&mall.Goods{}).Select("specifications.specification_id, goods.goods_id, goods.goods_name, specifications.specific, specifications.price, specifications.color, goods.goods_image_cover coverimage").Joins("join specifications on goods.goods_id = specifications.goods_id").Where("goods.goods_name like ?", "%"+goodsname+"%").Find(&mid)
+	res := make([]response.GoodsHomeInfo, 0)
+	if queryres.RowsAffected == 0 {
+		return res, "出错了哦，不存在这样的商品！", false
+	}
+	for _, v := range mid {
+		res = append(res, response.GoodsHomeInfo{
+			GoodsId:         v.GoodsId,
+			Specific:        v.Specific,
+			SpecificationId: v.SpecificationId,
+			Coverimage:      "https://cdn.zmcicloud.cn/" + v.Coverimage,
+			GoodsName:       v.GoodsName,
+			Price:           v.Price,
+			Color:           v.Color,
+		})
+	}
+	return res, "查询成功！", true
+}
